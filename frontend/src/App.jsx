@@ -328,6 +328,8 @@ export default function App() {
                     <div className="prose max-w-none">
                       {typeof llmResponse === 'string' ? (
                         <p className="whitespace-pre-wrap text-gray-300">{llmResponse}</p>
+                      ) : llmResponse.choices && llmResponse.choices[0]?.message?.content ? (
+                        <p className="whitespace-pre-wrap text-gray-300">{llmResponse.choices[0].message.content}</p>
                       ) : (
                         <pre className="bg-gray-900 p-4 rounded text-sm overflow-x-auto text-gray-300">
                           {JSON.stringify(llmResponse, null, 2)}

@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os, time, json
 from pii_detector import analyze_text
@@ -8,6 +9,7 @@ from assembly_api import upload_file, request_transcript, poll_transcript
 
 load_dotenv()
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 LOG_FILE = os.path.join(os.path.dirname(__file__), '..', 'logs.json')
 
 
@@ -22,8 +24,8 @@ def process_text():
     data = request.get_json() or {}
     text = data.get('text', '')
     level = data.get('level', 'lenient') 
-    result = analyze_text(text, semantic=True)
-    append_log({'type':'process_text', 'original_hash': result['original'][:64], 'masks': result['masks'], 'semantic': result['semantic_flags']})
+    result = analyze_text(text, semantic=False)  # Disabled to avoid model download
+    append_log({'type':'process_text', 'original_hash': result['original'][:64], 'entities': result['entities'], 'semantic': result['semantic_flags']})
     return jsonify(result)
 
 
@@ -43,7 +45,7 @@ def ask_llm():
 
 @app.route('/process_audio', methods=['POST'])
 def process_audio():
-    f = request.files.get('file')
+    f = request.files.get('file') or request.files.get('audio')
     if not f:
         return jsonify({'error':'file required'}), 400
     # Create uploads directory if it doesn't exist
@@ -54,9 +56,27 @@ def process_audio():
     upload_url = upload_file(filepath)
     transcript_id = request_transcript(upload_url)
     text = poll_transcript(transcript_id)
-    result = analyze_text(text, semantic=True)
-    append_log({'type':'process_audio', 'transcript_preview': text[:200], 'masks': result['masks']})
+    result = analyze_text(text, semantic=False)  # Disabled to avoid model download
+    result['transcription'] = text  # Add transcription to result
+    append_log({'type':'process_audio', 'transcript_preview': text[:200], 'entities': result['entities']})
     return jsonify(result)
+
+
+@app.route('/logs', methods=['GET'])
+def get_logs():
+    try:
+        if not os.path.exists(LOG_FILE):
+            return jsonify({'logs': []})
+        
+        logs = []
+        with open(LOG_FILE, 'r') as f:
+            for line in f:
+                if line.strip():
+                    logs.append(json.loads(line))
+        
+        return jsonify({'logs': logs})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':
