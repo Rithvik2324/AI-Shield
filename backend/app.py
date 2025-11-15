@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 import os, time, json
 from pii_detector import analyze_text
-# from groq_api import groq_chat_completion
-# from assembly_api import upload_file, request_transcript, poll_transcript
+from groq_api import groq_chat_completion
+from assembly_api import upload_file, request_transcript, poll_transcript
 
 
 load_dotenv()
@@ -46,7 +46,10 @@ def process_audio():
     f = request.files.get('file')
     if not f:
         return jsonify({'error':'file required'}), 400
-    filepath = os.path.join('/tmp', f.filename)
+    # Create uploads directory if it doesn't exist
+    upload_dir = os.path.join(os.path.dirname(__file__), 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
+    filepath = os.path.join(upload_dir, f.filename)
     f.save(filepath)
     upload_url = upload_file(filepath)
     transcript_id = request_transcript(upload_url)
