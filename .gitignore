@@ -1,0 +1,33 @@
+# Environment variables - NEVER commit these!
+.env
+backend/.env
+*.env
+
+# But DO keep the example template
+!.env.example
+!backend/.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+env/
+
+# Logs and data
+logs.json
+*.log
+
+# User uploads
+backend/uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
