@@ -1,0 +1,100 @@
+{
+    "type": "process_text",
+    "original_hash": "My email is john.doe@example.com and my phone is +1-555-123-4567",
+    "masks": [
+        {
+            "type": "EMAIL",
+            "value_hash": "836f82db99121b34",
+            "span": [
+                12,
+                32
+            ],
+            "original_len": 20
+        },
+        {
+            "type": "AADHAAR",
+            "value_hash": "6e747a4682eeb064",
+            "span": [
+                74,
+                88
+            ],
+            "original_len": 14
+        },
+        {
+            "type": "PHONE",
+            "value_hash": "a560305fdfd3a306",
+            "span": [
+                40,
+                54
+            ],
+            "original_len": 14
+        }
+    ],
+    "semantic": [],
+    "ts": 1763199809.4550714
+}
+{
+    "type": "ask_llm",
+    "sanitized": "Write a short poem about artificial intelligence",
+    "response_preview": "{'choices': [{'message': {'content': \"In silicon halls, a mind is born,\\nA creation of code, a future sworn.\\nArtificial intelligence, a wondrous might,\\nLearning, adapting, through day and night.\\n\\n",
+    "ts": 1763199928.8537536
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "Write a short poem about artificial intelligence.",
+    "masks": [],
+    "ts": 1763200335.7093372
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "My email is john.deo@theredgmail.com and my phone number is place 1 555-12-34567.",
+    "masks": [
+        {
+            "type": "EMAIL",
+            "value_hash": "8e33db8d974501f8",
+            "span": [
+                12,
+                36
+            ],
+            "original_len": 24
+        }
+    ],
+    "ts": 1763200507.7143502
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "My email is John Doe Azer at gmail com and My phone number is 123-45-6788.",
+    "masks": [],
+    "ts": 1763200606.369936
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "My email is John Doe Azer at gmail com and My phone number is 123-45-6788.",
+    "masks": [],
+    "ts": 1763200633.693743
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "My email is Aditya gmail com and My phone number is 123-45-6788.",
+    "masks": [],
+    "ts": 1763200727.9234657
+}
+{
+    "type": "process_audio",
+    "transcript_preview": "My credit Card number is 4532-1342-5678-9010.",
+    "masks": [
+        {
+            "type": "AADHAAR",
+            "value_hash": "22b7b80ade9676aa",
+            "span": [
+                25,
+                39
+            ],
+            "original_len": 14
+        }
+    ],
+    "ts": 1763200889.858693
+}{"type": "process_text", "original_hash": "My email is john.doe@example.com and my phone is +1-555-123-4567", "masks": [{"type": "EMAIL", "value_hash": "836f82db99121b34", "span": [12, 32], "original_len": 20}, {"type": "AADHAAR", "value_hash": "6e747a4682eeb064", "span": [74, 88], "original_len": 14}, {"type": "PHONE", "value_hash": "a560305fdfd3a306", "span": [40, 54], "original_len": 14}], "semantic": [], "ts": 1763202076.4946575}
+{"type": "process_text", "original_hash": "Patient Name: Sarah Johnson\nDOB: 03/15/1985\nSSN: 456-78-9012\nPho", "masks": [{"type": "EMAIL", "value_hash": "bb681628a4133e90", "span": [90, 112], "original_len": 22}, {"type": "PHONE", "value_hash": "5577dc7c796bc3ad", "span": [210, 222], "original_len": 12}], "semantic": [], "ts": 1763203286.3549974}
+{"type": "process_text", "original_hash": "Patient Name: Sarah Johnson\nDOB: 03/15/1985\nSSN: 456-78-9012\nPho", "masks": [{"type": "EMAIL", "value_hash": "bb681628a4133e90", "span": [88, 110], "original_len": 22}, {"type": "PHONE", "value_hash": "45e3f296b64715da", "span": [68, 80], "original_len": 12}, {"type": "PHONE", "value_hash": "5577dc7c796bc3ad", "span": [208, 220], "original_len": 12}], "semantic": [], "ts": 1763203372.6795022}
+{"type": "process_text", "original_hash": "Patient Name: Sarah Johnson\nDOB: 03/15/1985\nSSN: 456-78-9012\nPho", "masks": [{"type": "EMAIL", "value_hash": "bb681628a4133e90", "span": [88, 110], "original_len": 22}, {"type": "PHONE", "value_hash": "45e3f296b64715da", "span": [68, 80], "original_len": 12}, {"type": "PHONE", "value_hash": "5577dc7c796bc3ad", "span": [208, 220], "original_len": 12}], "semantic": [], "ts": 1763203379.400435}

@@ -3,4 +3,4 @@ python-dotenv
 requests
 sentence-transformers
 transformers[torch]
-uvicorn
+groq
