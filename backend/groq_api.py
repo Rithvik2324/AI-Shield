@@ -4,8 +4,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Initialize Groq client with API key from environment
-client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+# Lazy load Groq client to avoid initialization issues on import
+_client = None
+
+def get_client():
+    """Lazy load Groq client"""
+    global _client
+    if _client is None:
+        _client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+    return _client
 
 def groq_chat_completion(prompt, model="llama-3.1-8b-instant", temperature=0.3):
     """
@@ -21,6 +28,7 @@ def groq_chat_completion(prompt, model="llama-3.1-8b-instant", temperature=0.3):
         dict: Response from Groq API with choices containing the message
     """
     try:
+        client = get_client()
         chat_completion = client.chat.completions.create(
             messages=[
                 {

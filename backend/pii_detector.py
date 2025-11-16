@@ -77,7 +77,7 @@ def mask_matches(text):
     
     return redacted_text, filtered_entities
 
-def semantic_flag(text, threshold=0.75):
+def semantic_flag(text, threshold=0.55):
     _ensure_model()
     q_emb = _model.encode(text, convert_to_tensor=True)
     examples_emb = _model.encode(SENSITIVE_EXAMPLES, convert_to_tensor=True)
@@ -92,7 +92,7 @@ def semantic_flag(text, threshold=0.75):
             })
     return flagged
 
-def analyze_text(text, semantic=False):  # Disabled by default to avoid download issues
+def analyze_text(text, semantic=True):  # Disabled by default to avoid download issues
     redacted, entities = mask_matches(text)
 
     semantic_flags = []

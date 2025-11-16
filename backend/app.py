@@ -29,7 +29,7 @@ def process_text():
         if not text:
             return jsonify({'error': 'No text provided'}), 400
         
-        result = analyze_text(text, semantic=False)  # Disabled to avoid model download
+        result = analyze_text(text, semantic=True)  # Disabled to avoid model download
         append_log({'type':'process_text', 'original_hash': result['original'][:64], 'entities': result['entities'], 'semantic': result['semantic_flags']})
         return jsonify(result)
     except Exception as e:
