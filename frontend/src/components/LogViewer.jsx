@@ -13,18 +13,60 @@ export default function LogViewer() {
   }, []);
 
   const fetchLogs = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await aiShieldSdk.getLogs();
-      setLogs(Array.isArray(data) ? data : data.logs || []);
-    } catch (err) {
-      setError('Failed to load audit logs. Make sure the backend is running.');
-      console.error(err);
-    } finally {
-      setLoading(false);
+  try {
+    setLoading(true);
+    setError(null);
+    const data = await aiShieldSdk.getLogs();
+    const raw = Array.isArray(data) ? data : data.logs || [];
+    const normalized = normalizeLogs(raw);
+    setLogs(normalized);
+  } catch (err) {
+    setError('Failed to load audit logs. Make sure the backend is running.');
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
+  const normalizeLogs = (rawLogs) => {
+  return rawLogs.map((log) => {
+    // Normalize timestamp
+    const timestamp = log.ts ? new Date(log.ts * 1000).toISOString() : null;
+
+    // Normalize hash/text field
+    const input_hash =
+      log.original_hash ||
+      log.sanitized ||
+      log.transcript_preview ||
+      log.response_preview ||
+      "N/A";
+
+    // Normalize entities
+    const entities =
+      log.entities ||
+      log.masks ||
+      [];
+
+    // Normalize policy decision (fallback based on masks/entities)
+    let policy_decision = log.policy_decision;
+    if (!policy_decision) {
+      if (entities.length > 0) policy_decision = "masked";
+      else policy_decision = "allowed";
     }
-  };
+
+    return {
+      ...log,
+      timestamp,
+      input_hash,
+      redactions: entities.map(e => ({
+        type: e.type?.toUpperCase() || "PII",
+        action: "masked"
+      })),
+      entities_count: entities.length,
+      policy_decision
+    };
+  });
+};
+
 
   const filteredLogs = logs.filter(log => {
     if (filter === 'all') return true;
