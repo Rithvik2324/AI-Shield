@@ -1,14 +1,17 @@
 # 🛡️ AI Shield
 
-AI Shield is a comprehensive PII (Personally Identifiable Information) detection and redaction system that protects sensitive data in text and audio before sending it to AI/LLM systems.
+AI Shield is a comprehensive PII (Personally Identifiable Information) detection and redaction system that protects sensitive data in text and audio before sending it to AI/LLM systems. Available as both a web application and Chrome extension.
 
 ## Features
 
-- 🔍 **PII Detection**: Detects various types of PII including names, emails, phone numbers, SSNs, credit cards, and more
+- 🔍 **PII Detection**: Detects various types of PII including emails, phone numbers, SSNs, credit cards, Aadhaar numbers, and PAN cards
 - 🎤 **Audio Transcription**: Processes audio files and transcribes them using AssemblyAI
 - 🤖 **LLM Integration**: Safely sends sanitized prompts to LLMs via Groq API
 - 📊 **Audit Logging**: Tracks all processing activities for compliance
 - 🌐 **Modern Web UI**: Clean, ChatGPT-style interface built with React
+- 🧩 **Chrome Extension**: Real-time PII protection on ChatGPT and other AI platforms
+- 📋 **One-Click Copy**: Copy sanitized text with a single click
+- ⚡ **Real-time Monitoring**: Automatic detection before sending prompts to AI systems
 
 ## Architecture
 
@@ -24,6 +27,14 @@ AI-Shield/
 │       ├── App.jsx
 │       ├── components/
 │       └── sdk/      # API wrapper SDK
+├── extension/        # Chrome Extension
+│   ├── manifest.json # Extension configuration
+│   ├── background.js # Service worker
+│   ├── content.js    # Content script for AI platforms
+│   ├── popup/        # Extension popup UI
+│   ├── options/      # Settings page
+│   ├── lib/          # Shared utilities
+│   └── styles/       # Extension styles
 └── logs.json         # Audit trail
 ```
 
@@ -94,6 +105,36 @@ npm run dev
 ```
 
 The frontend will run on `http://localhost:5173`
+
+#### Chrome Extension Setup
+
+```bash
+# 1. Ensure backend is running (see Backend Setup above)
+
+# 2. Open Chrome and navigate to chrome://extensions/
+
+# 3. Enable "Developer mode" (toggle in top right)
+
+# 4. Click "Load unpacked"
+
+# 5. Select the 'extension' folder from this repository
+
+# 6. The AI Shield extension will now be active
+```
+
+**Extension Features:**
+- 🎯 Real-time PII detection on ChatGPT and other AI platforms
+- ⚠️ Warning banners before sending sensitive data
+- 🛡️ Modal with sanitized text and copy button
+- 📄 Text input and file upload support
+- ⚙️ Configurable backend URL in options
+
+**Supported Platforms:**
+- ChatGPT (chatgpt.com)
+- Claude (claude.ai)
+- Gemini (gemini.google.com)
+- Perplexity (perplexity.ai)
+- And more AI chat platforms
 
 ## API Endpoints
 
@@ -212,16 +253,42 @@ VITE_API_URL=http://localhost:5000
 ### Backend
 - **Flask**: Web framework
 - **Flask-CORS**: Cross-origin resource sharing
-- **Transformers**: HuggingFace models for NLP
-- **Sentence-Transformers**: Semantic analysis
-- **Groq**: LLM API integration
+- **Regex Patterns**: Pattern-based PII detection
+- **Groq**: LLM API integration (Llama 3.1 8B Instant)
 - **AssemblyAI**: Audio transcription
 
 ### Frontend
-- **React**: UI framework
-- **Vite**: Build tool
-- **Tailwind CSS**: Styling
+- **React 18**: UI framework
+- **Vite**: Build tool and dev server
+- **Tailwind CSS**: Utility-first styling
 - **Custom SDK**: API wrapper
+
+### Chrome Extension
+- **Manifest V3**: Latest extension platform
+- **Content Scripts**: DOM monitoring and injection
+- **Service Worker**: Background processing
+- **Chrome APIs**: Storage, runtime messaging, tabs
+
+## Usage
+
+### Web Application
+
+1. Enter or paste text in the input field
+2. Upload a file (.txt, .pdf, .doc, .docx)
+3. Click "Process & Scan" to detect PII
+4. View detected items and sanitized output
+5. Copy sanitized text or send to LLM
+
+### Chrome Extension
+
+1. Click the AI Shield icon in Chrome toolbar
+2. Enter text or upload a file in the popup
+3. Click "Process & Scan" to check for PII
+4. Browse to ChatGPT or other supported AI platforms
+5. Type a message containing PII
+6. Extension automatically detects and warns you
+7. Click "View Sanitized Text" to see the cleaned version
+8. Copy sanitized text with one click
 
 ## Development
 
@@ -229,7 +296,7 @@ VITE_API_URL=http://localhost:5000
 ```bash
 # Backend tests
 cd backend
-pytest
+python test_pii.py
 
 # Frontend tests
 cd frontend
@@ -246,14 +313,42 @@ npm run build
 
 Output will be in `frontend/dist/`
 
+**Extension:**
+The extension files are already in production-ready format. To package:
+```bash
+# Create a zip file of the extension folder
+# Upload to Chrome Web Store Developer Dashboard
+```
+
 ## Security Features
 
 - ✅ PII detection and redaction before LLM processing
 - ✅ Comprehensive audit logging
-- ✅ Semantic analysis for sensitive content
-- ✅ Multiple redaction patterns (emails, SSNs, credit cards, etc.)
+- ✅ Multiple detection patterns:
+  - Email addresses
+  - Phone numbers (US & International)
+  - Social Security Numbers (SSN)
+  - Credit card numbers
+  - Aadhaar numbers (India)
+  - PAN card numbers (India)
+- ✅ Real-time monitoring via Chrome extension
+- ✅ User consent before sending data to AI platforms
 - ✅ CORS protection
 - ✅ Environment-based configuration
+- ✅ Client-side validation and sanitization
+
+## PII Detection Patterns
+
+The system detects the following types of PII:
+
+| Type | Pattern | Example |
+|------|---------|---------|
+| Email | Standard email format | user@example.com |
+| Phone | US & International formats | +1-234-567-8900, (123) 456-7890 |
+| SSN | US Social Security Number | 123-45-6789 |
+| Credit Card | Major card providers | 4532-1234-5678-9010 |
+| Aadhaar | 12-digit Indian ID | 1234 5678 9012 |
+| PAN | Indian tax ID | ABCDE1234F |
 
 ## Contributing
 
