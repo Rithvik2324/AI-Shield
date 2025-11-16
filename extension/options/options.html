@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Shield - Settings & Logs</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <h1>🛡️ AI Shield</h1>
+        <p>Privacy protection for AI conversations</p>
+      </div>
+    </header>
+    
+    <nav class="tabs">
+      <button class="tab active" data-tab="settings">⚙️ Settings</button>
+      <button class="tab" data-tab="logs">📜 Audit Logs</button>
+      <button class="tab" data-tab="about">ℹ️ About</button>
+    </nav>
+    
+    <main>
+      <!-- Settings Tab -->
+      <section id="settings-tab" class="tab-content active">
+        <div class="card">
+          <h2>General Settings</h2>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label>Enable Protection</label>
+              <p>Automatically scan and protect PII in AI chats</p>
+            </div>
+            <div class="toggle">
+              <input type="checkbox" id="settingEnabled">
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label>Auto-Redact PII</label>
+              <p>Automatically replace detected PII with [REDACTED]</p>
+            </div>
+            <div class="toggle">
+              <input type="checkbox" id="settingAutoRedact">
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+          
+          <div class="setting-row">
+            <div class="setting-info">
+              <label>Show Warnings</label>
+              <p>Display warning banner when PII is detected</p>
+            </div>
+            <div class="toggle">
+              <input type="checkbox" id="settingShowWarnings">
+              <span class="toggle-slider"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h2>Backend Configuration</h2>
+          
+          <div class="form-group">
+            <label for="apiUrl">Backend API URL</label>
+            <input 
+              type="url" 
+              id="apiUrl" 
+              placeholder="http://localhost:5000"
+              class="input-field"
+            >
+            <p class="help-text">URL of your AI Shield backend server</p>
+          </div>
+          
+          <button class="btn btn-primary" id="testConnectionBtn">
+            🔍 Test Connection
+          </button>
+          
+          <div id="connectionStatus" class="connection-status hidden"></div>
+        </div>
+        
+        <div class="card">
+          <h2>Statistics</h2>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value" id="totalPII">0</div>
+              <div class="stat-label">Total PII Detected</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value" id="totalScans">0</div>
+              <div class="stat-label">Total Scans</div>
+            </div>
+          </div>
+          
+          <button class="btn btn-danger" id="resetStatsBtn">
+            🔄 Reset Statistics
+          </button>
+        </div>
+        
+        <div class="save-section">
+          <button class="btn btn-success" id="saveSettingsBtn">
+            💾 Save Settings
+          </button>
+          <span id="saveStatus" class="save-status"></span>
+        </div>
+      </section>
+      
+      <!-- Logs Tab -->
+      <section id="logs-tab" class="tab-content">
+        <div class="card">
+          <div class="logs-header">
+            <h2>Audit Logs</h2>
+            <div class="logs-actions">
+              <button class="btn btn-secondary" id="refreshLogsBtn">🔄 Refresh</button>
+              <button class="btn btn-secondary" id="exportLogsBtn">📥 Export</button>
+              <button class="btn btn-danger" id="clearLogsBtn">🗑️ Clear All</button>
+            </div>
+          </div>
+          
+          <div id="logsContainer" class="logs-container">
+            <div class="loading">Loading logs...</div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- About Tab -->
+      <section id="about-tab" class="tab-content">
+        <div class="card">
+          <h2>About AI Shield</h2>
+          
+          <div class="about-content">
+            <div class="about-logo">🛡️</div>
+            <h3>AI Shield v1.0.0</h3>
+            <p class="about-description">
+              AI Shield is a comprehensive PII (Personally Identifiable Information) 
+              protection system that safeguards your privacy when interacting with AI services.
+            </p>
+            
+            <h4>Features</h4>
+            <ul class="feature-list">
+              <li>✅ Real-time PII detection in AI chat inputs</li>
+              <li>✅ Automatic redaction of sensitive information</li>
+              <li>✅ Support for multiple PII types (email, phone, SSN, etc.)</li>
+              <li>✅ Works with ChatGPT, Claude, Gemini, and more</li>
+              <li>✅ Complete audit logging for compliance</li>
+              <li>✅ Offline fallback detection</li>
+            </ul>
+            
+            <h4>Detected PII Types</h4>
+            <div class="pii-types">
+              <span class="pii-badge email">Email</span>
+              <span class="pii-badge phone">Phone</span>
+              <span class="pii-badge ssn">SSN</span>
+              <span class="pii-badge credit_card">Credit Card</span>
+              <span class="pii-badge aadhaar">Aadhaar</span>
+              <span class="pii-badge pan">PAN</span>
+            </div>
+            
+            <h4>Links</h4>
+            <div class="links">
+              <a href="https://github.com/Rithvik2324/AI-Shield" target="_blank" class="link-btn">
+                📦 GitHub Repository
+              </a>
+              <a href="https://github.com/Rithvik2324/AI-Shield/issues" target="_blank" class="link-btn">
+                🐛 Report Issue
+              </a>
+            </div>
+            
+            <div class="footer-info">
+              <p>Built with ❤️ by TechnoSleuths</p>
+              <p class="copyright">© 2025 AI Shield. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Shield</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🛡️ AI Shield</h1>
+      <p class="subtitle">PII Protection for AI</p>
+    </div>
+    
+    <!-- Input Section -->
+    <div class="input-section">
+      <label class="input-label">Enter Text</label>
+      <textarea 
+        id="inputText" 
+        class="text-input" 
+        placeholder="Type or paste text to scan for PII..."
+        rows="6"></textarea>
+      
+      <div class="input-options">
+        <label class="file-upload-btn">
+          <input type="file" id="fileInput" accept=".txt,.pdf,.doc,.docx" hidden>
+          <span>📄 Upload File</span>
+        </label>
+      </div>
+    </div>
+    
+    <!-- Process Button -->
+    <button class="btn-process" id="processBtn">
+      <span>🛡️</span> Process & Scan
+    </button>
+    
+    <!-- Results Section -->
+    <div class="results-section" id="resultsSection" style="display: none;">
+      <div class="result-header">
+        <h3>Scan Results</h3>
+      </div>
+      <div class="result-content" id="resultContent">
+        <!-- Results will be inserted here -->
+      </div>
+    </div>
+    
+    <!-- Additional Features -->
+    <div class="additional-features">
+      <h3>Additional Features</h3>
+      <button class="feature-btn" id="openMainPageBtn">
+        <span>🌐</span> Open Full Dashboard
+      </button>
+    </div>
+    
+    <div class="footer">
+      <div class="backend-status">
+        <span class="backend-indicator" id="backendStatus">●</span>
+        <span class="backend-label" id="backendLabel">Backend</span>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
